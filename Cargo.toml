@@ -26,7 +26,7 @@ path = "src/lib.rs"
 [dependencies]
 freetype-rs = "0.9.*"
 gl = "0.6.*"
-glfw = "0.8.*"
+glfw = "0.10.*"
 image = "0.6.*"
 libc = "0.2.*"
 nalgebra = "0.9.*"
