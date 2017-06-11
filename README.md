@@ -34,7 +34,7 @@ As an example, having a red, rotating cube with the light attached to the camera
 extern crate kiss3d;
 extern crate nalgebra as na;
 
-use na::Vector3;
+use na::{Vector3, UnitQuaternion};
 use kiss3d::window::Window;
 use kiss3d::light::Light;
 
@@ -46,8 +46,10 @@ fn main() {
 
     window.set_light(Light::StickToCamera);
 
+    let rot = UnitQuaternion::from_axis_angle(&Vector3::y_axis(), 0.014);
+
     while window.render() {
-        c.prepend_to_local_rotation(&Vector3::new(0.0f32, 0.014, 0.0));
+        c.prepend_to_local_rotation(&rot);
     }
 }
 ```
@@ -60,14 +62,14 @@ Some controls are handled by default by the engine (they can be overridden by th
 * `enter`: look at the origin (0.0, 0.0, 0.0).
 
 ## Compilation
-You will need the last nightly build of the [rust compiler](http://www.rust-lang.org)
+You will need the last stable build of the [rust compiler](http://www.rust-lang.org)
 and the official package manager: [cargo](https://github.com/rust-lang/cargo).
 
 Simply add the following to your `Cargo.toml` file:
 
 ```
-[dependencies.kiss3d]
-git = "https://github.com/sebcrozet/kiss3d"
+[dependencies]
+kiss3d = "0.8"
 ```
 
 

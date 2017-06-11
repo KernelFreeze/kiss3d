@@ -11,7 +11,7 @@ use std::sync::{Arc, RwLock};
 use std::path::Path;
 use std::time::Instant;
 use rand::random;
-use na::Vector3;
+use na::{Translation3, Vector3};
 use kiss3d::window::Window;
 use kiss3d::light::Light;
 use kiss3d::loader::obj;
@@ -39,11 +39,12 @@ fn main() {
         return;
     }
 
-    let path = &args.next().unwrap()[..];
-    let scale: f32 = FromStr::from_str(&args.next().unwrap()[..]).unwrap();
+    let path            = &args.next().unwrap()[..];
+    let scale: f32      = FromStr::from_str(&args.next().unwrap()[..]).unwrap();
     let clusters: usize = FromStr::from_str(&args.next().unwrap()[..]).unwrap();
-    let concavity: f32 = FromStr::from_str(&args.next().unwrap()[..]).unwrap();
-    let scale = Vector3::new(scale, scale, scale);
+    let concavity: f32  = FromStr::from_str(&args.next().unwrap()[..]).unwrap();
+
+    let scale = Vector3::from_element(scale);
 
     /*
      * Create the window.
@@ -88,7 +89,7 @@ fn main() {
 
                     let mut m  = window.add_trimesh(comp, scale);
                     m.set_color(r, g, b);
-                    m.append_translation(&Vector3::new(-0.1, 0.1, 0.0));
+                    m.append_translation(&Translation3::new(-0.1, 0.1, 0.0));
                     // m.set_surface_rendering_activation(false);
                     // m.enable_backface_culling(false);
                     // m.set_lines_width(1.0);
@@ -106,7 +107,7 @@ fn main() {
                     let mesh = Rc::new(RefCell::new(mesh));
                     let mut m  = window.add_mesh(mesh, scale);
                     m.set_color(r, g, b);
-                    m.append_translation(&Vector3::new(0.1, 0.1, 0.0));
+                    m.append_translation(&Translation3::new(0.1, 0.1, 0.0));
                     // m.set_surface_rendering_activation(false);
                     // m.enable_backface_culling(false);
                     m.set_lines_width(1.0);

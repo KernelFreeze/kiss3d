@@ -1,6 +1,6 @@
 [package]
 name    = "kiss3d"
-version = "0.6.1"
+version = "0.9.0"
 authors = [ "Sébastien Crozet <developer@crozet.re>" ]
 
 description = "3D graphics engine for Rust."
@@ -24,18 +24,15 @@ name = "kiss3d"
 path = "src/lib.rs"
 
 [dependencies]
-freetype-rs = "0.9.*"
-gl = "0.6.*"
-image = "0.6.*"
-libc = "0.2.*"
-nalgebra = "0.9.*"
-ncollide_procedural = "0.5.*"
-num = "0.1.*"
-
-[dependencies.glfw]
-git = "https://github.com/Evolysoft/glfw-rs"
-default-features = false
+freetype-rs = "0.9"
+gl          = "0.6"
+glfw        = "0.12"
+image       = "0.6"
+libc        = "0.2"
+nalgebra    = "0.12"
+ncollide_procedural = "0.7"
+num-traits = "0.1"
 
 [dev-dependencies]
-rand = "0.3.*"
-ncollide_transformation = "0.5.*"
+rand = "0.3"
+ncollide_transformation = "0.7"

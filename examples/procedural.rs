@@ -5,7 +5,7 @@ extern crate kiss3d;
 extern crate nalgebra as na;
 
 use std::path::Path;
-use na::{Point2, Point3, Vector2, Vector3};
+use na::{Translation3, Point2, Point3, Vector2, Vector3};
 use ncollide_procedural::{Polyline, TriMesh};
 use ncollide_procedural::path::{PolylinePath, PolylinePattern, StrokePattern, ArrowheadCap};
 use kiss3d::window::Window;
@@ -18,23 +18,23 @@ fn main() {
      * A cube.
      */
     let cube  = ncollide_procedural::cuboid(&Vector3::new(0.7f32, 0.2, 0.4));
-    let mut c = window.add_trimesh(cube, na::one());
-    c.append_translation(&Vector3::new(1.0, 0.0, 0.0));
+    let mut c = window.add_trimesh(cube, Vector3::from_element(1.0));
+    c.append_translation(&Translation3::new(1.0, 0.0, 0.0));
     c.set_texture_from_file(&Path::new("media/kitten.png"), "kitten");
 
     /*
      * A sphere.
      */
     let sphere = ncollide_procedural::sphere(0.4f32, 20, 20, true);
-    let mut s  = window.add_trimesh(sphere, na::one());
+    let mut s  = window.add_trimesh(sphere, Vector3::from_element(1.0));
     s.set_texture_with_name("kitten");
 
     /*
      * A capsule.
      */
     let capsule = ncollide_procedural::capsule(&0.4f32, &0.4f32, 20, 20);
-    let mut c   = window.add_trimesh(capsule, na::one());
-    c.append_translation(&Vector3::new(-1.0, 0.0, 0.0));
+    let mut c   = window.add_trimesh(capsule, Vector3::from_element(1.0));
+    c.append_translation(&Translation3::new(-1.0, 0.0, 0.0));
     c.set_color(0.0, 0.0, 1.0);
 
     /*
@@ -46,7 +46,7 @@ fn main() {
         Point3::new(5.3f32, 2.0, 0.0), Point3::new(6.1, 2.2, 0.5), Point3::new(7.3, 2.0, 0.5), Point3::new(8.2, 2.4, 0.0),
         Point3::new(5.2f32, 3.0, 0.0), Point3::new(6.1, 2.9, 0.5), Point3::new(7.4, 3.0, 0.5), Point3::new(8.0, 3.1, 0.0)
     ]);
-    let mut t = window.add_trimesh(to_triangulate, na::one());
+    let mut t = window.add_trimesh(to_triangulate, Vector3::from_element(1.0));
     t.set_surface_rendering_activation(false);
     t.set_lines_width(2.0);
     t.set_color(0.0, 1.0, 0.0);
@@ -61,19 +61,19 @@ fn main() {
         Point3::new(0.0f32, 3.0, 0.0), Point3::new(1.0, 3.0, 2.0), Point3::new(2.0, 3.0, 2.0), Point3::new(3.0, 3.0, 0.0)
     ];
     let bezier = ncollide_procedural::bezier_surface(&control_points, 4, 4, 100, 100);
-    let mut b  = window.add_trimesh(bezier, na::one());
-    b.append_translation(&Vector3::new(-1.5, -1.5, 0.0));
+    let mut b  = window.add_trimesh(bezier, Vector3::from_element(1.0));
+    b.append_translation(&Translation3::new(-1.5, -1.5, 0.0));
     b.enable_backface_culling(false);
 
     // XXX: replace by an `add_mesh`.
     let mut control_polyhedra_gfx = window.add_quad_with_vertices(&control_points, 4, 4);
-    control_polyhedra_gfx.append_translation(&Vector3::new(-1.5, -1.5, 0.0));
+    control_polyhedra_gfx.append_translation(&Translation3::new(-1.5, -1.5, 0.0));
     control_polyhedra_gfx.set_color(0.0, 0.0, 1.0);
     control_polyhedra_gfx.set_surface_rendering_activation(false);
     control_polyhedra_gfx.set_lines_width(2.0);
 
-    let mut control_points_gfx = window.add_mesh(control_polyhedra_gfx.data().get_object().mesh().clone(), na::one());
-    control_points_gfx.append_translation(&Vector3::new(-1.5, -1.5, 0.0));
+    let mut control_points_gfx = window.add_mesh(control_polyhedra_gfx.data().get_object().mesh().clone(), Vector3::from_element(1.0));
+    control_points_gfx.append_translation(&Translation3::new(-1.5, -1.5, 0.0));
     control_points_gfx.set_color(1.0, 0.0, 0.0);
     control_points_gfx.set_surface_rendering_activation(false);
     control_points_gfx.set_points_size(10.0);
@@ -103,7 +103,7 @@ fn main() {
     let mut pattern = PolylinePattern::new(&pattern, true, start_cap, end_cap);
     let mesh        = pattern.stroke(&mut path);
     let mut m       = window.add_trimesh(mesh, Vector3::new(0.5f32, 0.5, 0.5));
-    m.append_translation(&Vector3::new(4.0, -1.0, 0.0));
+    m.append_translation(&Translation3::new(4.0, -1.0, 0.0));
     m.set_color(1.0, 1.0, 0.0);
 
     /*
@@ -115,15 +115,15 @@ fn main() {
     }
 
     let chull  = ncollide_transformation::convex_hull3(&points[..]);
-    let mut mhull = window.add_trimesh(chull, na::one());
-    let mut mpts  = window.add_trimesh(TriMesh::new(points, None, None, None), na::one());
-    mhull.append_translation(&Vector3::new(0.0, 2.0, -1.0));
+    let mut mhull = window.add_trimesh(chull, Vector3::from_element(1.0));
+    let mut mpts  = window.add_trimesh(TriMesh::new(points, None, None, None), Vector3::from_element(1.0));
+    mhull.append_translation(&Translation3::new(0.0, 2.0, -1.0));
     mhull.set_color(0.0, 1.0, 0.0);
     mhull.set_lines_width(2.0);
     mhull.set_surface_rendering_activation(false);
     mhull.set_points_size(10.0);
     mpts.set_color(0.0, 0.0, 1.0);
-    mpts.append_translation(&Vector3::new(0.0, 2.0, -1.0));
+    mpts.append_translation(&Translation3::new(0.0, 2.0, -1.0));
     mpts.set_points_size(2.0);
     mpts.set_surface_rendering_activation(false);
 
